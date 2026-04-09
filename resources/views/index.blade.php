@@ -17,7 +17,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-
             background: linear-gradient(135deg, #667eea, #764ba2);
         }
 
@@ -67,6 +66,8 @@
             background: #f5f5f5;
             padding: 15px;
             border-radius: 10px;
+            max-height: 200px;
+            overflow-y: auto;
         }
 
         .result p {
@@ -74,14 +75,12 @@
             color: #333;
         }
 
-        /* 🔴 Error Message */
         .error {
             color: red;
             margin-bottom: 10px;
             font-size: 14px;
         }
 
-        /* 🟢 Success */
         .success {
             color: green;
             margin-bottom: 10px;
@@ -94,16 +93,16 @@
 
     <div class="container">
 
-        <h2>Upload Form Image</h2>
+        <h2>Upload Form Image / PDF</h2>
 
-        <!-- 🔴 Error Show -->
+        {{-- Error Message --}}
         @if($errors->any())
             <div class="error">
                 {{ $errors->first() }}
             </div>
         @endif
 
-        <!-- 🟢 Success -->
+        {{-- Success Message --}}
         @if(session('success'))
             <div class="success">
                 {{ session('success') }}
@@ -113,15 +112,39 @@
         <form action="{{ route('upload') }}" method="POST" enctype="multipart/form-data"
             onsubmit="return validateForm()">
             @csrf
-            <input type="file" id="fileInput" name="file" accept=".jpg,.png,.pdf" required>
+
+            <input type="file" id="fileInput" name="file" accept=".jpg,.jpeg,.png,.pdf" required>
+
             <button type="submit">Scan with AI</button>
+
         </form>
 
+        {{-- Result Show --}}
         @if(session('data'))
             <div class="result">
-                <h3>Result:</h3>
-                <p><strong>Name:</strong> {{ session('data')['name'] }}</p>
-                <p><strong>Mobile:</strong> {{ session('data')['mobile'] }}</p>
+
+                <h3>OCR Result:</h3>
+
+                <p>
+                    <strong>Name:</strong>
+                    {{ session('data')['name'] }}
+                </p>
+
+                <p>
+                    <strong>Mobile:</strong>
+                    {{ session('data')['mobile'] }}
+                </p>
+
+                <hr style="margin:10px 0;">
+
+                <p>
+                    <strong>Full Text:</strong>
+                </p>
+
+                <p>
+                    {{ session('data')['full_text'] }}
+                </p>
+
             </div>
         @endif
 
@@ -129,6 +152,7 @@
 
     <script>
         function validateForm() {
+
             let file = document.getElementById("fileInput").value;
 
             if (!file) {

@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Student;
-use OpenAI;
+use thiagoalessio\TesseractOCR\TesseractOCR;
+use Spatie\PdfToImage\Pdf;
 
 class AIController extends Controller
 {
@@ -15,74 +16,58 @@ class AIController extends Controller
 
     public function upload(Request $request)
     {
-        // ✅ API KEY
-        $apiKey = config('services.openai.key') ?: env('OPENAI_API_KEY');
-       
-        if (!$apiKey) {
-            return back()->withErrors(['API Key missing']);
-        }
-
-        $client = OpenAI::client($apiKey);
-        
-        // ✅ File check
-        if (!$request->hasFile('file')) {
-            return back()->withErrors(['Please upload a file']);
-        }
-
-        $file = $request->file('file');
-        dd($file);
-        // ✅ Convert to base64
-        $fileData = base64_encode(file_get_contents($file));
-
-        // ✅ Prompt
-        $prompt = "Extract Name and Mobile number from this form. Return only JSON like {\"name\":\"\",\"mobile\":\"\"}";
+        $request->validate([
+            'file' => 'required|mimes:jpg,jpeg,png,pdf|max:4096'
+        ]);
 
         try {
 
-            // 🔥 Image + PDF दोनों same तरीके से भेजेंगे
-            $response = $client->responses()->create([
-                'model' => 'gpt-4.1',
-                'input' => [[
-                    'role' => 'user',
-                    'content' => [
-                        [
-                            'type' => 'input_text',
-                            'text' => $prompt
-                        ],
-                        [
-                            'type' => 'input_image',
-                            'image_url' => 'data:' . $file->getMimeType() . ';base64,' . $fileData
-                        ]
-                    ]
-                ]]
-            ]);
+            $file = $request->file('file');
 
-            // ✅ Output extract
-            $output = $response->output[0]->content[0]->text ?? '';
+            $tesseractPath = 'C:\Program Files\Tesseract-OCR\tesseract.exe';
 
-            // ✅ JSON निकालना (safe)
-            preg_match('/\{.*\}/s', $output, $match);
-            $json = $match[0] ?? '{}';
+            if ($file->getClientOriginalExtension() == 'pdf') {
 
-            $data = json_decode($json, true);
+                $pdf = new Pdf($file->getPathname());
 
-            $name = $data['name'] ?? 'Not Found';
-            $mobile = $data['mobile'] ?? 'Not Found';
+                $imagePath = public_path('converted.jpg');
 
-            // ✅ Save DB
+                $pdf->saveImage($imagePath);
+
+                $text = (new TesseractOCR($imagePath))
+                    ->executable($tesseractPath)
+                    ->run();
+
+            } else {
+
+                $text = (new TesseractOCR($file->getPathname()))
+                    ->executable($tesseractPath)
+                    ->run();
+            }
+
+            preg_match('/Name[:\- ]*(.*)/i', $text, $nameMatch);
+            preg_match('/[0-9]{10}/', $text, $mobileMatch);
+
+            $name = $nameMatch[1] ?? 'Not Found';
+            $mobile = $mobileMatch[0] ?? 'Not Found';
+
             Student::create([
                 'name' => $name,
                 'mobile' => $mobile,
-                'raw_text' => $output
+                'raw_text' => $text
             ]);
 
             return back()->with('data', [
                 'name' => $name,
-                'mobile' => $mobile
+                'mobile' => $mobile,
+                'full_text' => $text
             ]);
 
         } catch (\Exception $e) {
-            return back()->withErrors([$e->getMessage()]);
+
+            return back()->withErrors([
+                'Error: ' . $e->getMessage()
+            ]);
         }
     }
 }
