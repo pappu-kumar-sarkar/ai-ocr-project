@@ -98,7 +98,6 @@
             border-radius: 8px;
         }
 
-        /* LEFT BOX INFO */
         .feature-box {
             margin-top: 25px;
         }
@@ -112,7 +111,6 @@
             color: #444;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
-
     </style>
 </head>
 
@@ -120,9 +118,7 @@
 
 <div class="main-container">
 
-    <!-- Upload Box -->
     <div class="box">
-
         <h2>📤 Upload PDF / Image</h2>
 
         <p class="sub-text">Upload your scanned document here</p>
@@ -143,35 +139,21 @@
             <button type="submit">🚀 Convert To Text</button>
         </form>
 
-        <!-- New Left Bottom Design -->
         <div class="feature-box">
-
             <div class="feature-item">⚡ Fast OCR Processing</div>
-
             <div class="feature-item">📄 PDF & Image Supported</div>
-
             <div class="feature-item">🔒 100% Secure Upload</div>
-
         </div>
-
     </div>
 
-
-    <!-- Result Box -->
     <div class="box">
-
         <h2>📄 Extracted Text</h2>
 
         <p class="sub-text">Your OCR result will appear below</p>
 
-        <textarea id="outputText" readonly>
-@if(session('data'))
-{{ session('data')['full_text'] }}
-@endif
-        </textarea>
+        <textarea id="outputText" readonly>@if(session('data')){{ session('data')['full_text'] }}@endif</textarea>
 
         <button class="copy-btn" onclick="copyText()">📋 Copy Text</button>
-
     </div>
 
 </div>
@@ -186,5 +168,4 @@
 </script>
 
 </body>
-
 </html>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Models\Student;
 
 class AIController extends Controller
 {
@@ -39,6 +40,10 @@ class AIController extends Controller
 
             $text = $result['ParsedResults'][0]['ParsedText'] ?? 'No Text Found';
 
+            Student::create([
+                'raw_text' => $text
+            ]);
+
             return back()->with('data', [
                 'full_text' => $text
             ]);
@@ -46,7 +51,7 @@ class AIController extends Controller
         } catch (\Exception $e) {
 
             return back()->withErrors([
-                'Error: ' . $e->getMessage()
+                'error' => $e->getMessage()
             ]);
         }
     }

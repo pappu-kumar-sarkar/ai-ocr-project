@@ -6,15 +6,19 @@
 </p>
 
 ---
-## 📸 UI Preview
 
-> Add project screenshots here after deployment.
+## 📸 Project Preview
 
-Example:
+### Application UI
 
-```md id="h7i8j9"
-![Project Screenshot](public/ai-ocr-project.png)
-```
+![Project Screenshot](./public/ai-ocr-project.png)
+
+### Database Storage Preview
+
+![Database Screenshot](public/ai-ocr-databse.png)
+
+---
+
 ## 📖 About The Project
 
 AI OCR Tool is a smart document processing web application developed using **Laravel Framework** that allows users to upload scanned **PDFs or Images** and extract readable text instantly through **OCR.Space API**.
@@ -38,7 +42,7 @@ This project is designed for:
 * 🔒 Secure File Upload Validation
 * 🎨 Modern Responsive UI Design
 * 🛡️ Error Handling Support
-* 💾 Database Ready Structure
+* 💾 Database Storage Integration
 
 ---
 
@@ -58,8 +62,8 @@ This project is designed for:
 
 ## 📂 Project Folder Structure
 
-```bash id="a1b2c3"
-AI-OCR-TOOL/
+```bash
+AI-OCR-PROJECT/
 │
 ├── app/
 │   ├── Http/
@@ -77,6 +81,10 @@ AI-OCR-TOOL/
 │   └── views/
 │       └── index.blade.php
 │
+├── screenshots/
+│   ├── ai-ocr-project.png
+│   └── database-preview.png
+│
 ├── routes/
 │   └── web.php
 │
@@ -89,16 +97,16 @@ AI-OCR-TOOL/
 
 ### 1️⃣ Clone Repository
 
-```bash id="d4e5f6"
-git clone https://github.com/your-username/ai-ocr-tool.git
-cd ai-ocr-tool
+```bash
+git clone https://github.com/pappu-kumar-sarkar/ai-ocr-project.git
+cd ai-ocr-project
 ```
 
 ---
 
 ### 2️⃣ Install Composer Packages
 
-```bash id="g7h8i9"
+```bash
 composer install
 ```
 
@@ -106,7 +114,7 @@ composer install
 
 ### 3️⃣ Setup Environment File
 
-```bash id="j1k2l3"
+```bash
 cp .env.example .env
 ```
 
@@ -114,7 +122,7 @@ cp .env.example .env
 
 ### 4️⃣ Generate Application Key
 
-```bash id="m4n5o6"
+```bash
 php artisan key:generate
 ```
 
@@ -124,7 +132,7 @@ php artisan key:generate
 
 Add your database credentials inside `.env` file:
 
-```env id="p7q8r9"
+```env
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
@@ -137,7 +145,7 @@ DB_PASSWORD=
 
 ### 6️⃣ Add OCR API Key
 
-```env id="s1t2u3"
+```env
 OCR_SPACE_API_KEY=your_api_key_here
 ```
 
@@ -145,7 +153,7 @@ OCR_SPACE_API_KEY=your_api_key_here
 
 ### 7️⃣ Run Database Migration
 
-```bash id="v4w5x6"
+```bash
 php artisan migrate
 ```
 
@@ -153,13 +161,13 @@ php artisan migrate
 
 ### 8️⃣ Start Laravel Development Server
 
-```bash id="y7z8a9"
+```bash
 php artisan serve
 ```
 
 Visit:
 
-```arduino id="b1c2d3"
+```arduino
 http://127.0.0.1:8000
 ```
 
@@ -167,7 +175,7 @@ http://127.0.0.1:8000
 
 ## 🔄 Application Workflow
 
-```text id="e4f5g6"
+```text
 User Uploads File
       ↓
 Laravel Validates File
@@ -175,6 +183,8 @@ Laravel Validates File
 OCR.Space API Processes File
       ↓
 Extracted Text Returned
+      ↓
+Saved Into Database
       ↓
 Display Result in Textarea
 ```
@@ -184,12 +194,7 @@ Display Result in Textarea
 ## 🌍 OCR API Reference
 
 **Service Provider:** OCR.Space
-
 🔗 Website: https://ocr.space/
-
----
-
-
 
 ---
 
