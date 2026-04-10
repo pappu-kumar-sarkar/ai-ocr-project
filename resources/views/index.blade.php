@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>AI OCR</title>
+    <title>AI OCR Tool</title>
 
     <style>
         * {
@@ -13,156 +13,177 @@
         }
 
         body {
-            height: 100vh;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 20px;
         }
 
-        .container {
-            background: #fff;
+        .main-container {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .box {
+            background: rgba(255,255,255,0.95);
             padding: 30px;
-            border-radius: 15px;
-            width: 350px;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 420px;
+            min-height: 450px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.18);
         }
 
         h2 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #222;
+            font-size: 22px;
+        }
+
+        .sub-text {
+            text-align: center;
+            color: #666;
             margin-bottom: 20px;
-            color: #333;
+        }
+
+        .upload-area {
+            border: 2px dashed #bbb;
+            padding: 18px;
+            border-radius: 12px;
+            background: #fafafa;
+            margin-bottom: 20px;
         }
 
         input[type="file"] {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 2px dashed #ccc;
-            border-radius: 8px;
-            cursor: pointer;
         }
 
         button {
             width: 100%;
-            padding: 10px;
+            padding: 14px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            font-size: 16px;
+            font-size: 17px;
+            font-weight: bold;
             cursor: pointer;
-            transition: 0.3s;
         }
 
-        button:hover {
-            transform: scale(1.05);
-            opacity: 0.9;
-        }
-
-        .result {
-            margin-top: 20px;
-            text-align: left;
-            background: #f5f5f5;
+        textarea {
+            width: 100%;
+            height: 320px;
             padding: 15px;
-            border-radius: 10px;
-            max-height: 200px;
-            overflow-y: auto;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            resize: none;
+            font-size: 15px;
+            background: #fafafa;
         }
 
-        .result p {
-            margin: 5px 0;
-            color: #333;
+        .copy-btn {
+            margin-top: 15px;
+            background: #28a745;
         }
 
         .error {
+            background: #ffe5e5;
             color: red;
-            margin-bottom: 10px;
-            font-size: 14px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
         }
 
-        .success {
-            color: green;
+        /* LEFT BOX INFO */
+        .feature-box {
+            margin-top: 25px;
+        }
+
+        .feature-item {
+            background: #f8f8f8;
+            padding: 12px;
+            border-radius: 10px;
             margin-bottom: 10px;
             font-size: 14px;
+            color: #444;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
+
     </style>
 </head>
 
 <body>
 
-    <div class="container">
+<div class="main-container">
 
-        <h2>Upload Form Image / PDF</h2>
+    <!-- Upload Box -->
+    <div class="box">
 
-        {{-- Error Message --}}
+        <h2>📤 Upload PDF / Image</h2>
+
+        <p class="sub-text">Upload your scanned document here</p>
+
         @if($errors->any())
             <div class="error">
                 {{ $errors->first() }}
             </div>
         @endif
 
-        {{-- Success Message --}}
-        @if(session('success'))
-            <div class="success">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        <form action="{{ route('upload') }}" method="POST" enctype="multipart/form-data"
-            onsubmit="return validateForm()">
+        <form action="{{ route('upload') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
-            <input type="file" id="fileInput" name="file" accept=".jpg,.jpeg,.png,.pdf" required>
+            <div class="upload-area">
+                <input type="file" name="file" accept=".jpg,.jpeg,.png,.pdf" required>
+            </div>
 
-            <button type="submit">Scan with AI</button>
-
+            <button type="submit">🚀 Convert To Text</button>
         </form>
 
-        {{-- Result Show --}}
-        @if(session('data'))
-            <div class="result">
+        <!-- New Left Bottom Design -->
+        <div class="feature-box">
 
-                <h3>OCR Result:</h3>
+            <div class="feature-item">⚡ Fast OCR Processing</div>
 
-                <p>
-                    <strong>Name:</strong>
-                    {{ session('data')['name'] }}
-                </p>
+            <div class="feature-item">📄 PDF & Image Supported</div>
 
-                <p>
-                    <strong>Mobile:</strong>
-                    {{ session('data')['mobile'] }}
-                </p>
+            <div class="feature-item">🔒 100% Secure Upload</div>
 
-                <hr style="margin:10px 0;">
-
-                <p>
-                    <strong>Full Text:</strong>
-                </p>
-
-                <p>
-                    {{ session('data')['full_text'] }}
-                </p>
-
-            </div>
-        @endif
+        </div>
 
     </div>
 
-    <script>
-        function validateForm() {
 
-            let file = document.getElementById("fileInput").value;
+    <!-- Result Box -->
+    <div class="box">
 
-            if (!file) {
-                alert("Please select a file first!");
-                return false;
-            }
+        <h2>📄 Extracted Text</h2>
 
-            return true;
-        }
-    </script>
+        <p class="sub-text">Your OCR result will appear below</p>
+
+        <textarea id="outputText" readonly>
+@if(session('data'))
+{{ session('data')['full_text'] }}
+@endif
+        </textarea>
+
+        <button class="copy-btn" onclick="copyText()">📋 Copy Text</button>
+
+    </div>
+
+</div>
+
+<script>
+    function copyText() {
+        let text = document.getElementById("outputText");
+        text.select();
+        document.execCommand("copy");
+        alert("Copied Successfully!");
+    }
+</script>
 
 </body>
 

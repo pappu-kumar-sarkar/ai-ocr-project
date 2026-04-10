@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Student;
-use thiagoalessio\TesseractOCR\TesseractOCR;
-use Spatie\PdfToImage\Pdf;
+use Illuminate\Support\Facades\Http;
 
 class AIController extends Controller
 {
@@ -24,42 +22,24 @@ class AIController extends Controller
 
             $file = $request->file('file');
 
-            $tesseractPath = 'C:\Program Files\Tesseract-OCR\tesseract.exe';
-
-            if ($file->getClientOriginalExtension() == 'pdf') {
-
-                $pdf = new Pdf($file->getPathname());
-
-                $imagePath = public_path('converted.jpg');
-
-                $pdf->saveImage($imagePath);
-
-                $text = (new TesseractOCR($imagePath))
-                    ->executable($tesseractPath)
-                    ->run();
-
-            } else {
-
-                $text = (new TesseractOCR($file->getPathname()))
-                    ->executable($tesseractPath)
-                    ->run();
-            }
-
-            preg_match('/Name[:\- ]*(.*)/i', $text, $nameMatch);
-            preg_match('/[0-9]{10}/', $text, $mobileMatch);
-
-            $name = $nameMatch[1] ?? 'Not Found';
-            $mobile = $mobileMatch[0] ?? 'Not Found';
-
-            Student::create([
-                'name' => $name,
-                'mobile' => $mobile,
-                'raw_text' => $text
+            $response = Http::attach(
+                'file',
+                file_get_contents($file->getRealPath()),
+                $file->getClientOriginalName()
+            )->post('https://api.ocr.space/parse/image', [
+                'apikey' => env('OCR_SPACE_API_KEY'),
+                'language' => 'eng'
             ]);
 
+            $result = $response->json();
+
+            if(isset($result['IsErroredOnProcessing']) && $result['IsErroredOnProcessing']) {
+                throw new \Exception($result['ErrorMessage'][0] ?? 'OCR Failed');
+            }
+
+            $text = $result['ParsedResults'][0]['ParsedText'] ?? 'No Text Found';
+
             return back()->with('data', [
-                'name' => $name,
-                'mobile' => $mobile,
                 'full_text' => $text
             ]);
 

@@ -1,58 +1,222 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🚀 AI OCR Tool - Laravel Based Document Text Extractor
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <strong>A Modern OCR Web Application Built with Laravel & OCR.Space API</strong><br>
+  Upload scanned documents, images, or PDFs and instantly extract text using AI-powered OCR technology.
 </p>
 
-## About Laravel
+---
+## 📸 UI Preview
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+> Add project screenshots here after deployment.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Example:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+```md id="h7i8j9"
+![Project Screenshot](public/ai-ocr-project.png)
+```
+## 📖 About The Project
 
-## Learning Laravel
+AI OCR Tool is a smart document processing web application developed using **Laravel Framework** that allows users to upload scanned **PDFs or Images** and extract readable text instantly through **OCR.Space API**.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+This project is designed for:
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+* Digital Form Processing
+* Student Registration OCR
+* Data Entry Automation
+* Document Digitization
+* AI Text Recognition Systems
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+---
 
-## Agentic Development
+## ✨ Core Features
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+* 📤 Upload PDF / JPG / JPEG / PNG Files
+* 🤖 AI Powered OCR Text Extraction
+* ⚡ Fast Processing Speed
+* 📋 One Click Copy Extracted Text
+* 🔒 Secure File Upload Validation
+* 🎨 Modern Responsive UI Design
+* 🛡️ Error Handling Support
+* 💾 Database Ready Structure
 
-```bash
-composer require laravel/boost --dev
+---
 
-php artisan boost:install
+## 🛠️ Built With
+
+| Technology    | Purpose            |
+| ------------- | ------------------ |
+| Laravel 12    | Backend Framework  |
+| PHP 8+        | Server Side Logic  |
+| MySQL         | Database           |
+| OCR.Space API | OCR Processing     |
+| HTML5         | Frontend Structure |
+| CSS3          | UI Styling         |
+| JavaScript    | Interaction Logic  |
+
+---
+
+## 📂 Project Folder Structure
+
+```bash id="a1b2c3"
+AI-OCR-TOOL/
+│
+├── app/
+│   ├── Http/
+│   │   └── Controllers/
+│   │       └── AIController.php
+│   │
+│   └── Models/
+│       └── Student.php
+│
+├── database/
+│   └── migrations/
+│       └── create_students_table.php
+│
+├── resources/
+│   └── views/
+│       └── index.blade.php
+│
+├── routes/
+│   └── web.php
+│
+└── .env
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+---
 
-## Contributing
+## ⚙️ Installation Guide
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 1️⃣ Clone Repository
 
-## Code of Conduct
+```bash id="d4e5f6"
+git clone https://github.com/your-username/ai-ocr-tool.git
+cd ai-ocr-tool
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+### 2️⃣ Install Composer Packages
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash id="g7h8i9"
+composer install
+```
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 3️⃣ Setup Environment File
+
+```bash id="j1k2l3"
+cp .env.example .env
+```
+
+---
+
+### 4️⃣ Generate Application Key
+
+```bash id="m4n5o6"
+php artisan key:generate
+```
+
+---
+
+### 5️⃣ Configure Database
+
+Add your database credentials inside `.env` file:
+
+```env id="p7q8r9"
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=your_database
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+---
+
+### 6️⃣ Add OCR API Key
+
+```env id="s1t2u3"
+OCR_SPACE_API_KEY=your_api_key_here
+```
+
+---
+
+### 7️⃣ Run Database Migration
+
+```bash id="v4w5x6"
+php artisan migrate
+```
+
+---
+
+### 8️⃣ Start Laravel Development Server
+
+```bash id="y7z8a9"
+php artisan serve
+```
+
+Visit:
+
+```arduino id="b1c2d3"
+http://127.0.0.1:8000
+```
+
+---
+
+## 🔄 Application Workflow
+
+```text id="e4f5g6"
+User Uploads File
+      ↓
+Laravel Validates File
+      ↓
+OCR.Space API Processes File
+      ↓
+Extracted Text Returned
+      ↓
+Display Result in Textarea
+```
+
+---
+
+## 🌍 OCR API Reference
+
+**Service Provider:** OCR.Space
+
+🔗 Website: https://ocr.space/
+
+---
+
+
+
+---
+
+## 👨‍💻 Developer
+
+**Pappu Kumar**
+Laravel / PHP Developer
+
+---
+
+## 📌 Future Improvements
+
+* PDF Download Extracted Text
+* Export to Word/Excel
+* Multi Language OCR
+* AI Form Auto Fill Detection
+* Drag & Drop Upload Feature
+
+---
+
+## 📜 License
+
+Distributed under the MIT License.
+Feel free to use and modify.
+
+---
+
+<p align="center">
+  ⭐ If you like this project, don't forget to star the repository.
+</p>
