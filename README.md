@@ -11,11 +11,11 @@
 
 ### Application UI
 
-![Project Screenshot](./public/ai-ocr-project.png)
+![Project Screenshot](public/mukesh.jpg.pdf.png)
 
 ### Database Storage Preview
 
-![Database Screenshot](public/ai-ocr-databse.png)
+![Database Screenshot](public/ai-ocr-databse.png-1.png)
 
 ---
 
